@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export async function Chat(message: string, context: any[]) {
+export async function Chat(message: string, context: any[], model: string) {
 	const result = await fetch(
 		`${process.env.LLAMA_API_ENDPOINT}/api/generate`,
 		{
@@ -12,7 +12,7 @@ export async function Chat(message: string, context: any[]) {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				model: 'llama2',
+				model: model,
 				prompt: `${message}`,
 				context: context,
 				stream: false,
