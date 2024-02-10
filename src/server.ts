@@ -1,9 +1,9 @@
 import ExpressConfig from './Express/express.config.js';
 import bodyParser from 'body-parser';
-import { Onboard } from './llama2/onboard.js';
+import { Onboard } from './ai/onboard.js';
 import { mongoClient } from './mongoclient.js';
-import { Chat } from './llama2/chat.js';
-import { GenerateEmbeddings } from './llama2/generate_embeddings.js';
+import { Chat } from './ai/chat.js';
+import { GenerateEmbeddings } from './ai/generate_embeddings.js';
 import dotenv from 'dotenv';
 import { areSameDay } from './utils/check-timestamps.js';
 // import { SwitchPersonality } from './llama2/switch-personality.js';
