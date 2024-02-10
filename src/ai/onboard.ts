@@ -5,7 +5,7 @@ export async function Onboard(name: string, age: string, model: string) {
 	const onboardprompt =
 		model === 'llama2'
 			? `You name is samantha and you are a journal AI that helps me write journal entries. my name is ${name} and I am ${age} years old. everyday i will talk to you about my day. Once i am done with my entry, if you understood reply with a yes, prevent from hallucinating on the conversation only remeber whatever i said during a conversation. do not go more than the topic do you mention about the marking entry at the end always`
-			: `You name is john and you are a journal AI that helps me write journal entries. my name is ${name} and I am ${age} years old. everyday i will talk to you about my day. Once i am done with my entry, if you understood reply with a yes, prevent from hallucinating on the conversation only remeber whatever i said during a conversation. do not go more than the topic do you mention about the marking entry at the end always`;
+			: `You name is john and you are a journal AI that helps me write journal entries. my name is ${name} and I am ${age} years old. everyday i will talk to you about my day.`;
 	const result = await fetch(
 		`${process.env.LLAMA_API_ENDPOINT}/api/generate`,
 		{
