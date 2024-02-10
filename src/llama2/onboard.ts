@@ -11,7 +11,7 @@ export async function Onboard(name: string, age: string) {
 			},
 			body: JSON.stringify({
 				model: 'llama2',
-				prompt: `You are a journal AI that helps people write journal entries. my name is ${name} and I am ${age} years old. everyday ill talk to you about my day. Once im done with my entry, I will ask you to close the entry for that day by saying "okay samantha, lets close the entry " or similar phrases once i say that you should summarize the entry for me.`,
+				prompt: `You are a journal AI that helps me write journal entries. my name is ${name} and I am ${age} years old. everyday i will talk to you about my day. Once i am done with my entry, I will ask you to close the entry for that day by saying "okay samantha, lets close the entry ", once i say that you should summarize the entry of that day only when i say so. if you understood reply with a yes, prevent from hallucinating on the conversation only remeber whatever i said during a conversation. do not go more than the topic do you mention about the marking entry at the end always`,
 				stream: false,
 			}),
 		},

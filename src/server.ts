@@ -6,12 +6,15 @@ import { Chat } from './llama2/chat.js';
 import { GenerateEmbeddings } from './llama2/generate_embeddings.js';
 import dotenv from 'dotenv';
 import { areSameDay } from './utils/check-timestamps.js';
+import { SwitchPersonality } from './llama2/switch-personality.js';
+import cors from 'cors';
 
 dotenv.config();
 const app = ExpressConfig();
 const PORT = process.env.PORT || 8000;
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 app.use(bodyParser.json());
+app.use(cors());
 
 app.post('/onboarding', urlencodedParser, async function (req, res) {
 	const llama_response = await Onboard(req.body.name, req.body.age);
@@ -59,7 +62,6 @@ app.post('/chat', urlencodedParser, async function (req, res) {
 
 app.post('/switch-personality', urlencodedParser, async function (req, res) {
 	const db = mongoClient.db('journal');
-
 	const conversations = db.collection('conversations');
 
 	const context = await conversations
@@ -67,16 +69,10 @@ app.post('/switch-personality', urlencodedParser, async function (req, res) {
 		.sort({ entry_time: -1 })
 		.toArray();
 
-	const llama_response = await Chat(req.body.personality, context[0].context);
-	const embeddings = await GenerateEmbeddings(llama_response.response);
-
-	const doc = {
-		conversation: llama_response.response,
-		context: llama_response.context,
-		convo_embedding: embeddings,
-		entry_time: Date.now(),
-	};
-	await conversations.insertOne(doc);
+	const llama_response = await SwitchPersonality(
+		req.body.personality,
+		context[0].context,
+	);
 
 	res.end(JSON.stringify({ response: llama_response.response }));
 });
