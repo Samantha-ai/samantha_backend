@@ -57,6 +57,30 @@ app.post('/chat', urlencodedParser, async function (req, res) {
 	res.end(JSON.stringify({ response: llama_response.response }));
 });
 
+app.post('/switch-personality', urlencodedParser, async function (req, res) {
+	const db = mongoClient.db('journal');
+
+	const conversations = db.collection('conversations');
+
+	const context = await conversations
+		.find({})
+		.sort({ entry_time: -1 })
+		.toArray();
+
+	const llama_response = await Chat(req.body.personality, context[0].context);
+	const embeddings = await GenerateEmbeddings(llama_response.response);
+
+	const doc = {
+		conversation: llama_response.response,
+		context: llama_response.context,
+		convo_embedding: embeddings,
+		entry_time: Date.now(),
+	};
+	await conversations.insertOne(doc);
+
+	res.end(JSON.stringify({ response: llama_response.response }));
+});
+
 app.post('/submit-daily-entry', urlencodedParser, async function (_req, res) {
 	const db = mongoClient.db('journal');
 	const journal_entries = db.collection('journal_entries');
