@@ -5,6 +5,7 @@ import { mongoClient } from './mongoclient.js';
 import { Chat } from './llama2/chat.js';
 import { GenerateEmbeddings } from './llama2/generate_embeddings.js';
 import dotenv from 'dotenv';
+import { areSameDay } from './utils/check-timestamps.js';
 
 dotenv.config();
 const app = ExpressConfig();
@@ -102,6 +103,23 @@ app.post('/semantic-search', urlencodedParser, async function (req, res) {
 	const response = await vector_search_result;
 
 	res.end(JSON.stringify({ response: response, status: 'OK' }));
+});
+
+app.get('/journal-entry/:timestamp', async function (req, res) {
+	const db = mongoClient.db('journal');
+	const entries = await db.collection('journal_entries').find({}).toArray();
+	const entry = entries.find(
+		(entry) =>
+			areSameDay(entry.entry_time, parseInt(req.params.timestamp)) ===
+			true,
+	);
+
+	res.end(
+		JSON.stringify({
+			response: entry || '',
+			status: 'OK',
+		}),
+	);
 });
 
 app.listen(PORT, () => console.log('Server Running on Port ' + PORT));
