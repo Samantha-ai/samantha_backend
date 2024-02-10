@@ -1,0 +1,35 @@
+{
+  "type": "module",
+  "name": "samantha-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --exec 'ts-node-esm' src/server.ts ",
+    "build": "tsc ",
+    "lint": "eslint --ext .ts src",
+    "lint:fix": "eslint --ext .ts src --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "mongodb": "^6.3.0"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.5",
+    "@types/express": "^4.17.21",
+    "@types/mongodb": "^4.0.7",
+    "@types/node": "^20.11.17",
+    "add": "^2.0.6",
+    "dotenv": "^16.4.1",
+    "eslint": "^8.56.0",
+    "node-fetch": "^3.3.2",
+    "nodemon": "^3.0.3",
+    "pnpm": "^8.15.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
