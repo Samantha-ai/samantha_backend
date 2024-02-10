@@ -25,7 +25,7 @@ app.post('/onboarding', urlencodedParser, async function (req, res) {
 
 	const response = {
 		first_name: req.body.name,
-		last_name: req.body.age,
+		age: req.body.age,
 		content: onboard_response.response,
 	};
 
